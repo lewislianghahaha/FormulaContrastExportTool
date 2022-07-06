@@ -91,8 +91,8 @@ namespace FormulaContrastExportTool.Task
             var remarkid = false;
 
             //先根据rows得出对应的‘内部色号’及‘层’信息
-            var colorcode = Convert.ToString(rows[2]);
-            var level = Convert.ToString(rows[5]);
+            var colorcode = Convert.ToString(rows[3]);
+            var level = Convert.ToString(rows[7]);
 
             //根据所获取的‘内部色号’及‘层’记录放到compartempdt内进行获取相关数据集
             var dtlrows = compartempdt.Select("内部色号='"+ colorcode +"' and 层='"+ level +"'");
@@ -134,7 +134,7 @@ namespace FormulaContrastExportTool.Task
                             //若循环完成后,remarkid为true,并且rows中的‘内部色号’及‘层’不在_samedt,即将rows记录插入至_samedt内,并跳出所有循环
                             if (remarkid)
                             {
-                                if (_samedt.Select("内部色号='"+ Convert.ToString(rows[2]) + "' and 层='"+ Convert.ToString(rows[5]) + "'").Length == 0)
+                                if (_samedt.Select("内部色号='"+ Convert.ToString(rows[3]) + "' and 层='"+ Convert.ToString(rows[7]) + "'").Length == 0)
                                 {
                                     _samedt.Merge(GenerateDt(rows, _samedt));
                                    // var a = _samedt;
@@ -188,8 +188,8 @@ namespace FormulaContrastExportTool.Task
         {
             for (var i = 0; i < rows.Length; i++)
             {
-                //j为col的下标值(6~29)
-                for (var j = 6; j < 29; j++)
+                //j为col的下标值(10~30)
+                for (var j = 10; j < 30; j++)
                 {
                     //当碰到‘色母编码’为空即跳过,但j继续自增
                     if (Convert.ToString(rows[i][j + 0]) == "")
@@ -200,8 +200,8 @@ namespace FormulaContrastExportTool.Task
                     else
                     {
                         var newrow = tempdt.NewRow();
-                        newrow[0] = Convert.ToString(rows[i][2]);                    //内部色号
-                        newrow[1] = Convert.ToString(rows[i][5]);                    //层
+                        newrow[0] = Convert.ToString(rows[i][3]);                    //内部色号
+                        newrow[1] = Convert.ToString(rows[i][7]);                    //层
                         newrow[2] = Convert.ToString(rows[i][j+0]);                  //色母名称
                         newrow[3] = Convert.ToString(rows[i][j+0+1])==""
                             ?(object)DBNull.Value:Convert.ToDecimal(rows[i][j+0+1]); //色母量
